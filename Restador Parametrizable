@@ -1,0 +1,30 @@
+module Restador_Verilog_P(A, B, Pin, R, Pout);
+
+parameter N = 4;
+input[N-1:0] A;
+input[N-1:0] B;
+input Pin;
+output[N-1:0] R;
+output Pout;
+
+wire [N:0] carry;
+assign carry[0] = Pin;
+
+genvar i;
+generate for(i = 0; i < N; i = i + 1) 
+begin:r_loop
+    wire t1, t2, t3, t4, t5, t6;
+    xor g1(t1, A[i], B[i]);
+    xor g2(R[i], t1, carry[i]);
+    not g3(t4, A[i]);
+    and g4(t2, t4, B[i]);
+    and g5(t3, t4, carry[i]);
+    and g6(t5, B[i], carry[i]);
+    or g7(t6, t2, t3);
+    or g8(carry[i+1], t6, t5);
+end
+endgenerate
+
+assign Pout = carry[N];
+
+endmodule
