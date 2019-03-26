@@ -1,0 +1,26 @@
+module Sumador_Completo_P(A, B, Cin, S, Cout);
+
+parameter N = 32;
+input[N-1:0] A;
+input[N-1:0] B;
+input Cin;
+output[N-1:0] S;
+output Cout;
+
+wire [N:0] carry;
+assign carry[0] = Cin;
+
+genvar i;
+generate for(i = 0; i < N; i = i + 1) 
+begin:r_loop
+    wire t1, t2, t3;
+    xor g1(t1, A[i], B[i]);
+    xor g2(S[i], t1, carry[i]);
+    and g3(t2, A[i], B[i]);
+    and g4(t3, t1, carry[i]);
+    or g5(carry[i+1], t2, t3);
+end
+endgenerate
+
+assign Cout = carry[N];
+endmodule
