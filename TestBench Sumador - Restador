@@ -1,20 +1,23 @@
-module Restador_Verilog_P_TB(    );
+module Sumador_Completo_P_TB();
 
-parameter N = 4;
+parameter N = 3;
 
 reg clk;
 reg[N-1:0] a, b;
-wire[N-1:0] res;
-reg pin;
-wire pout;
+wire[N-1:0] sum;
+reg cin;
+wire cout;
+wire zero;
+wire neg;
+wire over;
 
-Restador_Verilog_P rca(.A(a), .B(b), .Pin(pin), .R(res), .Pout(pout));
+Sumador_Completo_P rca(.A(a), .B(b), .Cin(cin), .S(sum), .Cout(cout), .Zero(zero), .Neg(neg), .Over(over));
 
 initial begin
     #10;
     a = 0;
     b = 0;
-    pin = 0;
+    cin = 0;
     clk = 0;
     #10;
 end
@@ -27,8 +30,7 @@ begin
 end
 
 always @(a or b)
-    #5 $display("%d - %d = %d", a, b, res);
+    #5 $display("%d + %d = %d", a, b, sum);
 
 always #5 clk = ~clk;
-
 endmodule
