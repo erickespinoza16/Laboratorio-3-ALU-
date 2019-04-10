@@ -1,20 +1,20 @@
-module Right (entrada, shift, FlagIn, Cout, salida,Zero,Over,Neg);
+module Right (entrada, shift, FlagIn, Cout, salida,Zero,Over,Neg);//Se define el modulo
 
-parameter N=4;
-input  [N-1:0] entrada;
-input  [N-1:0] shift;
-input FlagIn;
-output  Cout;
-output  reg[N-1:0] salida;
-output Zero;
-output Over;
-output Neg;
+parameter N=4;// Parametro de generacion de Variable
+input  [N-1:0] entrada;//Entrada parametrizable
+input  [N-1:0] shift;//Salida parametrizable
+input FlagIn;// Bandera de entrada(0-1)
+output  Cout;//Muestra salida
+output  reg[N-1:0] salida; //Guarda salida
+output Zero;//Variable salida adicional
+output Over;//Variable salida adicional
+output Neg;//Variable salida adicional
 
 reg zero;
 wire s = shift;
-//integer s = 2;
+
     always @(*) begin
-     for (integer j=0; j<=N; j=j+1 )
+     for (integer j=0; j<=N; j=j+1 )//Ciclo encargado de la generacion del corrimiento
  
       
      begin
@@ -48,7 +48,7 @@ wire s = shift;
                 
             end
         end
-    end
+    end//Fin del ciclo
   always @(salida)
              begin
                     if (salida == 0) begin
