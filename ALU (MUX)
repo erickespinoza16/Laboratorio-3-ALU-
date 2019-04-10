@@ -12,8 +12,8 @@ reg[3:0] flag_s, flag_r, flag_i, flag_d, flag_and, flag_or, flag_not, flag_exor,
 
 Sumador_Completo_P #(.N(3)) sumador(.A(ALUA), .B(ALUB), .Cin(ALUFlagIn), .S(suma), .Cout(flag_s[0]), .Zero(flag_s[1]), .Neg(flag_s[2]), .Over(flag_s[3]))
 Restador_Completo_P #(.N(3)) restador(.A(ALUA), .B(ALUB), .Pin(ALUFlagIn), .R(suma), .Pout(flag_r[0]), .Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
-Right #(.N(3)) shiftR(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(pout) //FALTAAA 
-
+Right #(.N(3)) shiftR(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(pout) ,.Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
+ShiftLeft #(.N(3)) shiftL(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(pout) ,.Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
 
 
 always @(<ALUControl>, <suma>, <resta>, <incremento>, <decremento>, <and>,
