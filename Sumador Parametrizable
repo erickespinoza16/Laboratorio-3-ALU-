@@ -1,4 +1,4 @@
-module Sumador_Completo_P(A, B, Cin, S, Cout);
+module Sumador_Completo_P(A, B, Cin, S, Cout, Zero, Over, Neg);
 
 parameter N = 32;
 input[N-1:0] A;
@@ -6,6 +6,9 @@ input[N-1:0] B;
 input Cin;
 output[N-1:0] S;
 output Cout;
+output Zero;
+output Over;
+output Neg;
 
 wire [N:0] carry;
 assign carry[0] = Cin;
@@ -22,5 +25,16 @@ begin:r_loop
 end
 endgenerate
 
+if (S == 0)
+    begin
+    assign Zero = 1;
+    end
+else
+    begin
+    assign Zero = 0;
+    end
+    
 assign Cout = carry[N];
+assign Neg = 0;
+assign Over = carry[N];
 endmodule
