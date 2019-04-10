@@ -1,4 +1,5 @@
-module ShiftLeft (entrada, shift, FlagIn, Cout, salida);
+    
+module ShiftLeft (entrada, shift, FlagIn, Cout, salida,Zero,Over,Neg);
 
 parameter N=4;
 input  [N-1:0] entrada;
@@ -6,6 +7,11 @@ input  [N-1:0] shift;
 input FlagIn;
 output  Cout;
 output  reg[N-1:0] salida;
+output Zero;
+output Over;
+output Neg;
+
+reg zero;
 
 wire s = shift;
 //integer s = 2;
@@ -18,5 +24,17 @@ wire s = shift;
                 salida[j] = entrada[j-shift];
         end
     end
+      always @(salida)
+               begin
+                      if (salida == 0) begin
+                          assign zero = 1;
+                      end else begin
+                          assign zero = 0;
+                      end
+                  
+               end
+    assign Zero = zero;
+    assign Neg = 0;
+    assign Over = 0;
     assign Cout = entrada[N-shift+1];
-endmodule
+    endmodule
