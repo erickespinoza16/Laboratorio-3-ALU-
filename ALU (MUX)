@@ -10,8 +10,8 @@ output[3:0] ALUFlags;
 reg[2:0] suma, resta, incremento, decremento, and, or, not, exor, shift_l, shift_r;
 reg[3:0] flag_s, flag_r, flag_i, flag_d, flag_and, flag_or, flag_not, flag_exor, flag_sl, flag_sr;
 
-Sumador_Completo_P #(.N(3)) sumador(.A(ALUA), .B(ALUB), .Cin(ALUFlagIn), .S(suma), .Cout(flag_s(0)), .Zero(flag_s(1)), .Neg(flag_s(2)), .Over(flag_s(3)))
-Restador_Completo_P #(.N(3)) restador(.A(ALUA), .B(ALUB), .Pin(ALUFlagIn), .R(suma), .Pout(flag_r(0)), .Zero(flag_r(1)), .Neg(flag_r(2)), .Over(flag_r(3)))
+Sumador_Completo_P #(.N(3)) sumador(.A(ALUA), .B(ALUB), .Cin(ALUFlagIn), .S(suma), .Cout(flag_s[0]), .Zero(flag_s[1]), .Neg(flag_s[2]), .Over(flag_s[3]))
+Restador_Completo_P #(.N(3)) restador(.A(ALUA), .B(ALUB), .Pin(ALUFlagIn), .R(suma), .Pout(flag_r[0]), .Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
 Right #(.N(3)) shiftR(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(pout) //FALTAAA 
 
 
