@@ -51,15 +51,15 @@ wire s = shift;
     end//Fin del ciclo
   always @(salida)
              begin
-                    if (salida == 0) begin
+                    if (salida == 0) begin//Ciclo para activar Flags
                         assign zero = 1;
                     end else begin
                         assign zero = 0;
                     end
                 
-             end
+             end //Fin del ciclo
     assign Zero = zero;
     assign Neg = 0;
     assign Over = 0;
     assign Cout = entrada[N-shift+1];
-endmodule
+endmodule//Fin del modulo
