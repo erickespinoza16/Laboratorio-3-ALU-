@@ -1,4 +1,4 @@
-module TBShifts(    );
+module RightTest(    );
 
 parameter N = 4;
 
@@ -7,8 +7,9 @@ reg[N-1:0] a, b;
 wire[N-1:0] res;
 reg pin;
 wire pout;
+wire cero;
 
-ShiftLeft rca(.entrada(a), .shift(b), .FlagIn(pin), .salida(res), .Cout(pout)); //CAMBIAR POR EL NECESARIO 
+Right rca(.entrada(a), .shift(b), .FlagIn(pin), .salida(res), .Cout(pout),.Zero(cero)); //CAMBIAR POR EL NECESARIO 
 
 initial begin
     #10;
