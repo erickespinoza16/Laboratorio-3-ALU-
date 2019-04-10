@@ -1,0 +1,35 @@
+module Right (entrada, shift, FlagIn, Cout, salida);
+
+parameter N=4;
+input  [N-1:0] entrada;
+input  [N-1:0] shift;
+input FlagIn;
+output  Cout;
+output  reg[N-1:0] salida;
+
+wire s = shift;
+//integer s = 2;
+    always @(*) begin
+     for (integer j=0; j<=N; j=j+1 )
+ 
+      
+     begin
+            
+            if(j<shift)
+                if (shift+j<N)
+              
+                    salida[j]= entrada[j+(shift)];
+                else 
+                    salida[j] = FlagIn;
+            else if(shift==0)
+            begin 
+                salida[j] = entrada[j];
+            end
+            else if(shift<j)
+            begin
+                salida[j] = FlagIn;
+            end
+        end
+    end
+    assign Cout = entrada[N-shift+1];
+endmodule
