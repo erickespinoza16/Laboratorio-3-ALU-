@@ -7,41 +7,49 @@ input[3:0] ALUControl;
 output[2:0] ALUResult;
 output[3:0] ALUFlags;
 
-reg[2:0] suma, resta, incremento, decremento, and, or, not, exor, shift_l, shift_r;
+reg[2:0] suma, resta, incremento, decremento, rand, ror, rnot, exor, shift_l, shift_r;
 reg[3:0] flag_s, flag_r, flag_i, flag_d, flag_and, flag_or, flag_not, flag_exor, flag_sl, flag_sr;
+reg [2:0] ALUResul;
+reg [3:0] ALUFlag;
 
-Sumador_Completo_P #(.N(3)) sumador(.A(ALUA), .B(ALUB), .Cin(ALUFlagIn), .S(suma), .Cout(flag_s[0]), .Zero(flag_s[1]), .Neg(flag_s[2]), .Over(flag_s[3]))
-Restador_Completo_P #(.N(3)) restador(.A(ALUA), .B(ALUB), .Pin(ALUFlagIn), .R(suma), .Pout(flag_r[0]), .Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
-Right #(.N(3)) shiftR(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(pout) ,.Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
-ShiftLeft #(.N(3)) shiftL(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(pout) ,.Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]))
+Sumador_Completo_P #(.N(3)) sumador(.A(ALUA), .B(ALUB), .Cin(ALUFlagIn), .S(suma), .Cout(flag_s[0]), .Zero(flag_s[1]), .Neg(flag_s[2]), .Over(flag_s[3]));
+Restador_Completo_P #(.N(3)) restador(.A(ALUA), .B(ALUB), .Pin(ALUFlagIn), .R(suma), .Pout(flag_r[0]), .Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]));
+Right #(.N(3)) shiftR(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(flag_r[0]) ,.Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]));
+ShiftLeft #(.N(3)) shiftL(.entrada(ALUA), .shift(ALUB), .FlagIn(ALUFlagIn), .salida(shift_r), .Cout(flag_r[0]) ,.Zero(flag_r[1]), .Neg(flag_r[2]), .Over(flag_r[3]));
 
 
-always @(<ALUControl>, <suma>, <resta>, <incremento>, <decremento>, <and>,
-            <or>, <not>, <xor>, <shift_l>, <shift_r>)
-      case (<ALUControl>)
-         4'b0000: <ALUResult> = <suma>;
-         4'b0001: <ALUResult> = <resta>;
-         4'b0010: <ALUResult> = <incremento>;
-         4'b0011: <ALUResult> = <decremento>;
-         4'b0100: <ALUResult> = <and>;
-         4'b0101: <ALUResult> = <or>;
-         4'b0110: <ALUResult> = <not>;
-         4'b0111: <ALUResult> = <xor>;
-         4'b1000: <ALUResult> = <shift_l>;
-         4'b1001: <ALUResult> = <shift_r>;
+always @(ALUControl, suma, resta, incremento, decremento, rand,
+            ror, rnot, exor, shift_l, shift_r)
+      case (ALUControl)
+         4'b0000: ALUResul = suma;
+         4'b0001: ALUResul = resta;
+         4'b0010: ALUResul = incremento;
+         4'b0011: ALUResul = decremento;
+         4'b0100: ALUResul = rand;
+         4'b0101: ALUResul = ror;
+         4'b0110: ALUResul = rnot;
+         4'b0111: ALUResul = exor;
+         4'b1000: ALUResul = shift_l;
+         4'b1001: ALUResul = shift_r;
       endcase
+      
+      assign ALUResult = ALUResul;
      
-always @(<ALUControl>, <flag_s>, <flag_r>, <flag_i>, <flag_d>, <flag_and>,
-            <flag_or>, <flag_not>, <flag_xor>, <flag_sl>, <flag_sr>)
-      case (<ALUControl>)
-         4'b0000: <ALUFlags> = <flag_s>;
-         4'b0001: <ALUFlags> = <flag_r>;
-         4'b0010: <ALUFlags> = <flag_i>;
-         4'b0011: <ALUFlags> = <flag_d>;
-         4'b0100: <ALUFlags> = <flag_and>;
-         4'b0101: <ALUFlags> = <flag_or>;
-         4'b0110: <ALURFlags> = <flag_not>;
-         4'b0111: <ALUFlags> = <flag_xor>;
-         4'b1000: <ALUFlags> = <flag_sl>;
-         4'b1001: <ALUFlags> = <flag_sr>;
+always @(ALUControl, flag_s, flag_r, flag_i, flag_d, flag_and,
+            flag_or, flag_not, flag_exor, flag_sl, flag_sr)
+      case (ALUControl)
+         4'b0000: ALUFlag = flag_s;
+         4'b0001: ALUFlag = flag_r;
+         4'b0010: ALUFlag = flag_i;
+         4'b0011: ALUFlag = flag_d;
+         4'b0100: ALUFlag = flag_and;
+         4'b0101: ALUFlag = flag_or;
+         4'b0110: ALUFlag = flag_not;
+         4'b0111: ALUFlag = flag_exor;
+         4'b1000: ALUFlag = flag_sl;
+         4'b1001: ALUFlag = flag_sr;
       endcase
+      
+      assign ALUFlags = ALUFlag;
+    
+endmodule
