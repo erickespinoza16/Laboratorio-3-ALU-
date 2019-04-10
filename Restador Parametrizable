@@ -1,4 +1,4 @@
-module Restador_Verilog_P(A, B, Pin, R, Pout);
+module Restador_Verilog_P(A, B, Pin, R, Pout, Zero, Over, Neg);
 
 parameter N = 4;
 input[N-1:0] A;
@@ -6,8 +6,12 @@ input[N-1:0] B;
 input Pin;
 output[N-1:0] R;
 output Pout;
+output Zero;
+output Neg;
+output Over;
 
 wire [N:0] carry;
+reg zero, neg;
 assign carry[0] = Pin;
 
 genvar i;
@@ -25,6 +29,31 @@ begin:r_loop
 end
 endgenerate
 
+always @ (R)
+begin
+    if (R == 0)
+    begin
+        assign zero = 1;
+    end
+    else
+    begin
+        assign zero = 0;
+    end
+    
+    if (R < 0)
+    begin
+        assign neg = 1;
+   end
+   else
+   begin
+        assign neg = 0;
+   end
+  
+end
+
 assign Pout = carry[N];
+assign Over = carry[N];
+assign Zero = zero;
+assign Neg = neg;
 
 endmodule
